@@ -29,17 +29,21 @@ public class Instatiation implements CommandLineRunner{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		userRepository.deleteAll();
+		postRepository.deleteAll();
 
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+
 		
 		Post post01 = new Post(null, sdf.parse("21/03/2018"), "Partiu Viagem!", "Vou viajar para Sampa, abraços!", new AuthorDTO(maria));
 		Post post02 = new Post(null, sdf.parse("23/08/2018"), "Bom dia!", "Acordei Feliz hoje!", new AuthorDTO(maria));
 		
 		postRepository.saveAll(Arrays.asList(post01, post02));
+		maria.getPosts().addAll(Arrays.asList(post01, post02));
+		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+		
 	}
 
 }
