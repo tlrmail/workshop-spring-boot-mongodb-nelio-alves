@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nelioalves.workshopmongodb.domain.Post;
+import com.nelioalves.workshopmongodb.repository.util.URL;
 import com.nelioalves.workshopmongodb.services.PostService;
 
 @RestController
@@ -31,4 +33,11 @@ public class PostResources {
 		return ResponseEntity.ok().body(post);
 	}
 
+	@RequestMapping(value = "/titlesearch", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findByText(@RequestParam(value="text", defaultValue = "") String text){
+		text = URL.decodeParam(text);
+		List<Post> posts = service.findByTitle(text);
+		return ResponseEntity.ok().body(posts);
+	}
+	
 }
