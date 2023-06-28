@@ -1,5 +1,6 @@
 package com.nelioalves.workshopmongodb.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.workshopmongodb.domain.Post;
-import com.nelioalves.workshopmongodb.domain.User;
 import com.nelioalves.workshopmongodb.repository.PostRepository;
 import com.nelioalves.workshopmongodb.services.exception.ObjectNotFoundException;
 
@@ -30,8 +30,13 @@ public class PostService {
 		}
 		return post;
 	}
-	
+
 	public List<Post> findByTitle(String text){
 		return repository.searchTitle(text);
+	}
+
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate){
+		maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
+		return repository.fullSearch(text, minDate, maxDate);
 	}
 }
